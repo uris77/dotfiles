@@ -1,10 +1,8 @@
 [user]
-    name = Ory Band
-    email = oryband@gmail.com
+    name = Roberto Guerra
+    email = uris77@gmail.com
 [push]
-    default = simple
-[credential]
-    helper = cache --timeout=3600
+    autoSetupRemote = true
 [apply]
     # Detect whitespace errors when applying a patch
     whitespace = fix
@@ -12,6 +10,7 @@
     editor = vim
     # Watch bad spacing.
     whitespace = tab-in-indent,space-before-tab,trailing-space,blank-at-eol,cr-at-eol,blank-at-eof
+    autocrlf = input
 [color]
     ui = true
 [color "branch"]
@@ -30,30 +29,26 @@
 [merge]
     # Include summaries of merged commits in newly created merge commit messages
     log = true
-[alias]
-    # View the SHA, description, and history graph of the latest 20 commits
-    l = log --oneline --graph
-    # View the current working tree status using the short format
-    s = status -s
-    # Show the diff between the latest commit and the current state
-    d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
-    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
-    ;di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
-    # Pull in remote changes for the current repository and all its submodules
-    ;p = !"git pull; git submodule foreach git pull origin master"
-    # Clone a repository including all submodules
-    ;c = clone --recursive
-    # Commit all changes
-    ;ca = !git add -A && git commit -av
-    # Switch to a branch, creating it if necessary
-    ;go = checkout -B
-    # Show verbose output about tags, branches or remotes
-    ;tags = tag -l
-    ;branches = branch -a
-    ;remotes = remote -v
-    # Credit an author on the latest commit
-    ;credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
-    # Interactive rebase with the given number of latest commits
-    ;reb = "!r() { git rebase -i HEAD~$1; }; r"
-    # Undo a `git push`
-    ;undopush = push -f origin HEAD^:master
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
+# How to remap https to ssh when cloning
+#[url "ssh://git@github.com/org/"]
+#    insteadOf = https://github.com/org/
+
+# Configuration based on directory.
+# Useful when working on projects that require a different username or settings.
+#[include]
+#        path = .gitconfig-personal
+#[includeIf "gitdir:~/Development/spantree/org1"]
+#        path = .gitconfig-org1
+#[includeIf "gitdir:~/Development/openstep/org2"]
+#        path = .gitconfig-org2
